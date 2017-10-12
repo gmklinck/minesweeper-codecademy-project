@@ -23,7 +23,7 @@ class Board {
     this._numberOfBombs = numberOfBombs;
     this._numberOfTiles = numberOfRows * numberOfColumns;
     this._playerBoard = Board.generatePlayerBoard(numberOfRows, numberOfColumns);
-    this._bombBoard = Board.generatePlayerBoard(numberOfRows, numberOfColumns, numberOfBombs);
+    this._bombBoard = Board.generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs);
   }
   get playerBoard(){
     return this._playerBoard;
@@ -43,17 +43,17 @@ class Board {
     const neighborOffsets = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
     const numberOfRows = this._bombBoard.length;
     const numberOfColumns = this._bombBoard[0].length;
-    this._numberOfBombs = 0;
+    let numberOfBombs = 0;
     neighborOffsets.forEach(offset => {
       const neighborRowIndex = rowIndex + offset[0];
       const neighborColumnIndex = columnIndex + offset[1];
       if (neighborRowIndex >= 0 && neighborRowIndex < numberOfRows && neighborColumnIndex >= 0 && neighborColumnIndex < numberOfColumns) {
         if (this._bombBoard[neighborRowIndex][neighborColumnIndex] === 'B') {
-          this._numberOfBombs++;
+          numberOfBombs++;
         };
       };
     });
-    return this._numberOfBombs;
+    return numberOfBombs;
   }
   hasSafeTiles(){
     return this._numberOfTiles !== this._numberOfBombs;
